@@ -7,6 +7,7 @@ var imgNum = 0;	//The total amount of questions answered
 var imgPath = "images/img0.png";
 var currScore = "";
 var charArray = ["e", "tsu", "ba", "a", "chi", "yu", "yo", "ya", "wo", "wa", "u", "to", "be", "ta", "su", "so", "shi", "se", "sa", "ru", "ro", "ri", "zu", "re", "zo", "ra", "o", "ze", "za", "nu", "pu", "no", "pe", "ni", "pi", "ne", "po", "na", "mu", "pa", "mo", "zi", "mi", "gu", "me", "ma", "gi", "te", "ge", "ku", "ga", "ko", "du", "ki", "ke", "do", "ka", "di", "de", "i", "da", "ho", "hi", "bu", "bo", "he", "ha", "bi", "fu"];
+var form = document.getElementById("romaji");
 
 $(document).ready(function() {
 	console.log("Document ready - logic.js");
@@ -24,8 +25,8 @@ $(document).ready(function() {
 
 	$("#submitButton").click(function() {
 		//alert("Swag money");
-		$("#romaji")[0].reset();
 		checkAnswer();
+		form.reset();
 	});
 
 	$("#submitScore").submit(function(e) {
