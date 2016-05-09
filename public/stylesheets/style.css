@@ -7,10 +7,14 @@ div {
   text-align: center;
 }
 
+p {
+  text-align: center;
+}
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: lightblue;
+  background-image: url("/public/images/background.jpg");
 }
 
 #quizArea {
