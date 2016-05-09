@@ -17,6 +17,10 @@ body {
   background-color: lightblue;
 }
 
+#noCenter {
+  text-align: left;
+}
+
 #quizArea {
   background-color: white;
 }
