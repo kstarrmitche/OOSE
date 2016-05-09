@@ -14,7 +14,8 @@ p {
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background: url("../public/images/background.jpg");
+  background-image: url("../public/images/background.jpg") no-repeat, transparent;
+
 }
 
 #quizArea {
