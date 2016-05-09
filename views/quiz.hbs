@@ -1,5 +1,4 @@
-<body>
-    <script src="javascripts/jquery-2.2.3.js"></script>
+<script src="javascripts/jquery-2.2.3.js"></script>
 <script>
 //Global variables
 var quizComplete = false;
@@ -24,7 +23,7 @@ $(document).ready(function() {
 		}
 	});//romaji.change
 
-	$("#submitButton").submit(function() { //Changed from .click to .submit
+	$("#submitButton").click(function() {
 		//alert("Swag money");
 		checkAnswer();
 		$("#romaji").val("");
@@ -58,7 +57,7 @@ function checkAnswer() {
 	if(imgNum < 69)
 	{
 		imgNum++;
-		imgPath = "images/img" + imgNum + ".png";
+		imgPath = "images/img" + imgNum + ".png" height="25%" width="25%";
 		currScore = correct + "/" + imgNum;
 		//alert(imgPath);
 		$("#score").html(currScore);
@@ -76,12 +75,11 @@ function checkAnswer() {
 
 <div style="border:solid;" id="quizArea">
 	<p id="score">Current Score: 0/0</p>
-	<img src="images/img0.png" id="quizImg" height="50%" width="50%">
+	<img src="" id="quizImg">
 		<br>
-  <form> <!--Added form tags around this, changed the button to "submit" from "button"-->
 		<input type="text" id="romaji">
-		<input type="submit" id="submitButton" value="Submit answer">
-  </form>
+		<input type="button" id="submitButton" value="Submit answer">
+
 	<p id="error"></p>
 </div>
 
@@ -92,7 +90,3 @@ function checkAnswer() {
 		<input type="submit" value="Submit scores">
 	</form>
 </div>
-
-
-
-</body>
