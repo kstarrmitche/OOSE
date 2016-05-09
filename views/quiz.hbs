@@ -65,7 +65,7 @@ function checkAnswer() {
 	{
 		quizComplete = true;
 		alert("Quiz Over! " + currScore);
-		$("#finalScore").html(currScore);
+		$("#finalScore").value(currScore);
 	}
 }
 </script>
@@ -83,7 +83,7 @@ function checkAnswer() {
 
 <div id="results">
 	<form method="post" id="submitScore">
-		<input type="text" id="finalScore" name="finalScore">
+		<input type="hidden" id="finalScore" name="finalScore" value="">
 		<input type="submit" value="Submit scores">
 	</form>
 </div>
