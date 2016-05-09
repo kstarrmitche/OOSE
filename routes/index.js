@@ -37,35 +37,41 @@ function loggedIn(req, res, next) {
   }
 }
 
-function runQuery_user(req, res, client, done, next) {
-  return function(err, result){
-    if (err) {
-      console.log("unable to query SELECT ");
-      next(err); // throw error to error.hbs. only for test purpose
+////////////////////////////////////////
+
+function runQuery_profile(req, res, client, done, next) {
+  return function(err, result) {
+    if(err) {
+      console.log("unable to query SELECT");
+      console.log(err);
+      next(err);
     }
     else {
       console.log(result);
       res.render('profile', {rows: result.rows, user: req.user} );
     }
   };
-} // client.query
+}
 
 function connectDB_profile(req, res, next) {
-	return function(err, client, done) {
-		if(err) {
-			console.log("Unable to connect to database");
-			return next(err);
-		}
-		//client.query('SELECT * FROM assignment WHERE username=$1',[req.user.username], runQuery_notAdmin(req, res, client, done, next));
-		client.query('SELECT * FROM quizzes WHERE username=$1',[req.user.username], runQuery_user(req, res, client, done, next));
-	};
+  return function(err, client, done) {
+    if(err) {
+      console.log("Unable to connect to database");
+      console.log(err);
+      return next(err);
+    }
+    client.query('SELECT * FROM quizzes WHERE username=$1', [req.user.username], runQuery_profile(req, res, client, done, next));
+  };
 }
-router.get('/profile',loggedIn,function(req, res){
+
+router.get('/profile',loggedIn,function(req, res, next){
       // passport middleware adds user object to HTTP req object
       // passport.authenticate from login (HTTP Post)
-      res.render('profile', { user: req.user }); // display profile.hbs
-      //pg.connect(process.env.DATABASE_URL + "?ssl=true", connectDB_profile(req,res,next));
+      //res.render('profile', { user: req.user }); // display profile.hbs
+      pg.connect(process.env.DATABASE_URL + "?ssl=true", connectDB_profile(req,res,next));
 });
+
+/////////////////////////////////////////////
 
 router.get('/signup',function(req, res) {
     // If logged in, go to profile page
@@ -162,14 +168,13 @@ function connectDB_submitScore(req, res, next) {
       return next(err);
     }
 
-    client.query('INSERT INTO quizzes (username, due, score) VALUES($1, current_date, $2)', [req.user.username, req.body.finalScore], function(err, result) {
+    client.query('INSERT INTO quizzes (username, score) VALUES($1, $2)', [req.user.username, req.body.finalScore], function(err, result) {
       done();
       if(err) {
         console.log("unable to query INSERT");
         return next(err);
       }
       console.log("Quiz successfully added");
-      console.log(req.body.finalScore);
       res.redirect('profile');
     });
   };
