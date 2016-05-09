@@ -24,8 +24,8 @@ $(document).ready(function() {
 
 	$("#submitButton").click(function() {
 		//alert("Swag money");
+		$("#romaji")[0].reset();
 		checkAnswer();
-		$("#romaji").find('input:text').val('');
 	});
 
 	$("#submitScore").submit(function(e) {
