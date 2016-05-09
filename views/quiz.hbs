@@ -57,7 +57,7 @@ function checkAnswer() {
 	if(imgNum < 69)
 	{
 		imgNum++;
-		imgPath = "images/img" + imgNum + ".png" height="25%" width="25%";
+		imgPath = "images/img" + imgNum + ".png";
 		currScore = correct + "/" + imgNum;
 		//alert(imgPath);
 		$("#score").html(currScore);
@@ -75,7 +75,7 @@ function checkAnswer() {
 
 <div style="border:solid;" id="quizArea">
 	<p id="score">Current Score: 0/0</p>
-	<img src="" id="quizImg">
+	<img src="" id="quizImg" height="25%" width="25%"">
 		<br>
 		<input type="text" id="romaji">
 		<input type="button" id="submitButton" value="Submit answer">
