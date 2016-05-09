@@ -1,0 +1,16 @@
+Welcome to your profile, {{user.username}}!
+<a href="/users">Back to User menu</a>
+<a href="/quiz">Start a quiz!</a>
+{{#if rows}}
+<table>
+{{#each rows}}
+	<tr>
+		{{#each this}}
+			<td> {{ this }} </td>
+		{{/each}}
+	</tr>
+{{/each}}
+</table>
+{{else}}
+	<h3 style="color:red;">No quizzes taken yet</h3>
+{{/if}}

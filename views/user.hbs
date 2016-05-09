@@ -1,0 +1,9 @@
+<a href="/users/login">Log in</a><br>
+<a href="/users/signup">Sign up</a><br>
+<a href="/users/logout">Log out</a><br>
+<a href="/users/profile">User profile</a>
+{{#if user.username}}
+<p>You are logged in as {{user.username}}</p>
+{{else}}
+<p>Please log in or sign up</p>
+{{/if}}

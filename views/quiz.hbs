@@ -1,0 +1,90 @@
+<script src="javascripts/jquery-2.2.3.js"></script>
+<script>
+//Global variables
+var quizComplete = false;
+var correct = 0; //How many questions the user got right
+var imgNum = 0;	//The total amount of questions answered
+var imgPath = "images/img0.png";
+var currScore = "";
+var charArray = ["e", "tsu", "ba", "a", "chi", "yu", "yo", "ya", "wo", "wa", "u", "to", "be", "ta", "su", "so", "shi", "se", "sa", "ru", "ro", "ri", "zu", "re", "zo", "ra", "o", "ze", "za", "nu", "pu", "no", "pe", "ni", "pi", "ne", "po", "na", "mu", "pa", "mo", "zi", "mi", "gu", "me", "ma", "gi", "te", "ge", "ku", "ga", "ko", "du", "ki", "ke", "do", "ka", "di", "de", "i", "da", "ho", "hi", "bu", "bo", "he", "ha", "bi", "fu"];
+
+$(document).ready(function() {
+	console.log("Document ready - logic.js");
+	$("#quizImg").attr("src",imgPath);
+	//If the users adds/deletes a character from the input box
+	//Check if it's valid and update error message accordingly
+	$("#romaji").change(function() {
+		if(!inputValid()) {
+			$("#error").html("Fix inputs!");
+		}
+		else {
+			$("#error").html("");
+		}
+	});//romaji.change
+
+	$("#submitButton").click(function() {
+		//alert("Swag money");
+		checkAnswer();
+	});
+
+	$("#submitScore").submit(function(e) {
+		if(quizComplete)
+		{
+			$("#finalScore").val(currScore);
+			$("#submitScore").submit();
+		}
+		else
+		{
+			alert("Quiz incomplete!");
+			e.preventDefault();
+		}
+	});
+});//document.ready
+
+//Check if user input is 1-3 lowercase characters
+function inputValid() {
+	var rj = $("#romaji").val().search(/^[a-z]{1,3}$/);
+	return (rj != -1)
+}
+
+function checkAnswer() {
+	var userInput = $("#romaji").val();
+	if(userInput == charArray[imgNum]) {
+		correct++;
+	}
+	if(imgNum < 69)
+	{
+		imgNum++;
+		imgPath = "images/img" + imgNum + ".png";
+		currScore = correct + "/" + imgNum;
+		//alert(imgPath);
+		$("#score").html(currScore);
+		$("#quizImg").attr("src",imgPath);
+	}
+	else
+	{
+		quizComplete = true;
+		alert("Quiz Over! " + currScore);
+		$("#finalScore").html(currScore);
+	}
+}
+</script>
+<h1> Hiragana Quiz </h1>
+<a href="/users">Back to User menu</a>
+
+<div style="border:solid;" id="quizArea">
+	<p id="score">0/0</p>
+	<img src="" id="quizImg">
+
+		<input type="text" id="romaji">
+		<input type="button" id="submitButton" value="Submit answer">
+
+	<p id="error"></p>
+</div>
+
+<div id="results">
+	<form method="post" id="submitScore">
+		<input type="text" id="finalScore" name="finalScore">
+		<input type="submit" value="Submit scores">
+	</form>
+</div>

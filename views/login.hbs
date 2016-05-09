@@ -1,0 +1,14 @@
+<form method="post" action="login">
+<input type="text" name="username" placeholder="User name"><br>
+<input type="password" name="password" placeholder="Password"><br>
+<input type="submit" value="Log in">
+</form>
+{{#if success}}
+<p>Successfully created an account. Please log in</p>
+{{/if}}
+
+{{#if error}}
+<p>{{error}}</p>
+{{/if}}
+
+<!--<a href="signup">Sign up</a>-->
