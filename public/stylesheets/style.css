@@ -16,6 +16,12 @@ body {
 #quizArea {
   background-color: white;
 }
+
+#index {
+  text-align: center;
+  padding-top: 350px;
+}
+
 a {
   color: #00B7FF;
 }
