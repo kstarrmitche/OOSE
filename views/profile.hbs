@@ -1,10 +1,10 @@
-<p>Welcome to your profile, {{user.username}}!<p>
+<p>Welcome to your profile, <b>{{user.username}}</b>!<p>
 	<br>
 
 <a href="/">Back to User menu</a><br>
 <a href="/quiz">Start a quiz!</a>
 
-<p id="noCenter"> Your results!:</p>
+<p id="noCenter"> Your results:</p>
 {{#if rows}}
 <table>
 {{#each rows}}
@@ -16,5 +16,5 @@
 {{/each}}
 </table>
 {{else}}
-	<h3 style="color:red;">No quizzes taken yet</h3>
+	<h3 style="color:red;" text-align="center;">No quizzes taken yet</h3>
 {{/if}}
