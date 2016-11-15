@@ -156,31 +156,6 @@ router.post('/signup', function(req, res, next) {
 
   });
 
-router.get('/quiz', loggedIn, function(req,res) {
-	console.log("Loaded quiz!");
-	res.render('quiz', { user: req.user });
-});
 
-function connectDB_submitScore(req, res, next) {
-  return function(err, client, done) {
-    if(err) {
-      console.log("Unable to connect to database");
-      return next(err);
-    }
-
-    client.query('INSERT INTO quizzes (username, score) VALUES($1, $2)', [req.user.username, req.body.finalScore], function(err, result) {
-      done();
-      if(err) {
-        console.log("unable to query INSERT");
-        return next(err);
-      }
-      console.log("Quiz successfully added");
-      res.redirect('profile');
-    });
-  };
-}
-router.post('/quiz', loggedIn, function(req,res,next) {
-  pg.connect(process.env.DATABASE_URL + "?ssl=true", connectDB_submitScore(req, res, next));
-});
 
 module.exports = router;
