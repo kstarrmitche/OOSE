@@ -17,7 +17,7 @@ env.config();
 
 // Authentication
 var pg = require('pg').native;
-// var pg = require('pg') // this is for local database use only
+//var pg = require('pg'); // this is for local database use only
 // javascript password encryption (https://www.npmjs.com/package/bcryptjs)
 var bcrypt = require('bcryptjs');
 //  authentication middleware

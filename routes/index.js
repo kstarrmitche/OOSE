@@ -13,7 +13,7 @@ router.get('/login', function(req, res){
     res.render('login', {success:req.query.success, error: req.flash('error')}); //display login.hbs
 });
 
-router.post('/login',
+/*router.post('/login',
   // This is where authentication happens
   // authentication locally (not using passport-google, passport-twitter, passport-github...)
   passport.authenticate('local', { failureRedirect: 'login', failureFlash:true }),
@@ -21,8 +21,28 @@ router.post('/login',
     // res.json(req.user);
     // res.redirect('/users/profile')
     res.redirect('profile'); // Successful. redirect to localhost:3000/users/profile
-});
+});*/
+router.post('/login',
+  // This is where authentication happens
+  // authentication locally (not using passport-google, passport-twitter, passport-github...)
+  passport.authenticate('local', { failureRedirect: 'login', failureFlash:true }),
+  function(req, res,next) {
+    // res.json(req.user);
+    // res.redirect('/users/profile')
+    console.log(req.user);
+    console.log('index.js');
+    if (req.user.type == 'content'){
+      res.redirect('/content');
+    }
+    else if (req.user.type == 'ad'){
+      res.redirect('/ad');
+    }
 
+    else{
+      res.redirect('/user');
+    }
+    //res.redirect('profile'); // Successful. redirect to localhost:3000/users/profile
+});
 router.get('/logout', function(req, res){
     req.logout();
     // res.redirect('/');
@@ -31,7 +51,7 @@ router.get('/logout', function(req, res){
 
 function loggedIn(req, res, next) {
   if (req.user) {
-    next(); // req.user exisit so go to the next function (right after loggedIn)
+    next(); // req.user exist so go to the next function (right after loggedIn)
   } else {
     res.redirect('login'); // user doesn't exisit redirect to localhost:3000/users/login
   }
@@ -71,6 +91,92 @@ router.get('/profile',loggedIn,function(req, res, next){
       pg.connect(process.env.DATABASE_URL + "?ssl=true", connectDB_profile(req,res,next));
 });
 
+router.get('/content',loggedIn,function(req, res, next){
+      // connect DB and read table assignments
+      pg.connect(process.env.DATABASE_URL + "?ssl=true", connectDB_content(req,res,next));
+
+});
+
+function connectDB_content(req, res, next) {
+  return function(err, client, done) {
+    if (err){ // connection failed
+      console.log("Unable to connect to database");
+      return next(err);
+    }
+    client.query('SELECT * FROM users WHERE username=$1',[req.user.username], runQuery_content(req, res, client, done, next));
+  };
+}
+
+function runQuery_content(req, res, client, done, next) {
+  return function(err, result){
+    if (err) {
+      console.log("unable to query SELECT ");
+      next(err); // throw error to error.hbs. only for test purpose
+    }
+    else {
+      console.log(result);
+      res.render('content', {user: req.user} );
+    }
+  };
+}
+
+router.get('/ad',loggedIn,function(req, res, next){
+      // connect DB and read table assignments
+      pg.connect(process.env.DATABASE_URL + "?ssl=true", connectDB_ad(req,res,next));
+
+});
+
+function connectDB_ad(req, res, next) {
+  return function(err, client, done) {
+    if (err){ // connection failed
+      console.log("Unable to connect to database");
+      return next(err);
+    }
+    client.query('SELECT * FROM users WHERE username=$1',[req.user.username], runQuery_ad(req, res, client, done, next));
+  };
+}
+
+function runQuery_ad(req, res, client, done, next) {
+  return function(err, result){
+    if (err) {
+      console.log("unable to query SELECT ");
+      next(err); // throw error to error.hbs. only for test purpose
+    }
+    else {
+      console.log(result);
+      res.render('ad', {user: req.user} );
+    }
+  };
+}
+
+router.get('/user',loggedIn,function(req, res, next){
+      // connect DB and read table assignments
+      pg.connect(process.env.DATABASE_URL + "?ssl=true", connectDB_user(req,res,next));
+
+});
+
+function connectDB_user(req, res, next) {
+  return function(err, client, done) {
+    if (err){ // connection failed
+      console.log("Unable to connect to database");
+      return next(err);
+    }
+    client.query('SELECT * FROM users WHERE username=$1',[req.user.username], runQuery_user(req, res, client, done, next));
+  };
+}
+
+function runQuery_user(req, res, client, done, next) {
+  return function(err, result){
+    if (err) {
+      console.log("unable to query SELECT ");
+      next(err); // throw error to error.hbs. only for test purpose
+    }
+    else {
+      console.log(result);
+      res.render('reguser', {user: req.user} );
+    }
+  };
+}
 /////////////////////////////////////////////
 
 router.get('/signup',function(req, res) {
@@ -93,9 +199,11 @@ function encryptPWD(password){
 }
 
 function createUser(req, res, client, done, next){
-  console.log("create account");
+  console.log("create account2");
   var pwd = encryptPWD(req.body.password);
-  client.query('INSERT INTO users (username, password) VALUES($1, $2)', [req.body.username, pwd], function(err, result) {
+console.log(req.body);
+console.log(req.body.radio);
+  client.query('INSERT INTO users (username, password, type) VALUES($1, $2, $3)', [req.body.username, pwd, req.body.radio], function(err, result) {
     done(); // done all queries
     if (err) {
       console.log("unable to query INSERT");

@@ -3,6 +3,8 @@ var router = express.Router();
 var passport = require('passport');
 var pg = require('pg').native;
 var bcrypt = require('bcryptjs');
+var env = require('dotenv');
+env.config();
 
 router.get('/', function(req, res, next) {
   res.render('user', { user: req.user }); //display user.hbs
@@ -19,7 +21,19 @@ router.post('/login',
   function(req, res,next) {
     // res.json(req.user);
     // res.redirect('/users/profile')
-    res.redirect('profile'); // Successful. redirect to localhost:3000/users/profile
+    console.log(req.user);
+    console.log('users.js');
+    if (req.user.type == 'content'){
+      res.redirect('/content');
+    }
+    else if (req.user.type == 'ad'){
+      res.redirect('/ad');
+    }
+
+    else{
+      res.redirect('/user');
+    }
+    //res.redirect('profile'); // Successful. redirect to localhost:3000/users/profile
 });
 
 router.get('/logout', function(req, res){
@@ -40,6 +54,16 @@ router.get('/profile',loggedIn,function(req, res){
       // passport middleware adds user object to HTTP req object
       // passport.authenticate from login (HTTP Post)
       res.render('profile', { user: req.user }); // display profile.hbs
+});
+
+router.get('/content',loggedIn,function(req, res){
+      // connect DB and read table assignments
+      res.render('content', { user: req.user }); //
+});
+
+router.get('/ad',loggedIn,function(req, res){
+      // connect DB and read table assignments
+      res.render('ad', { user: req.user }); //
 });
 
 router.get('/signup',function(req, res) {
@@ -64,7 +88,8 @@ function encryptPWD(password){
 function createUser(req, res, client, done, next){
   console.log("create account");
   var pwd = encryptPWD(req.body.password);
-  client.query('INSERT INTO users (username, password) VALUES($1, $2)', [req.body.username, pwd], function(err, result) {
+  console.log(req.body.value);
+  client.query('INSERT INTO users (username, password, type) VALUES($1, $2, $3)', [req.body.username, pwd, req.body.value], function(err, result) {
     done(); // done all queries
     if (err) {
       console.log("unable to query INSERT");
