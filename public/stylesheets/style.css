@@ -1,10 +1,29 @@
+@import url('fonts/stylesheet.css');
+
 h1 {
-  font: 72px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-size: 52px;
+  font-family: "code_pro_demoregular", Arial, sans-serif;
+  color: white;
   text-align: center;
 }
 
-div {
-  text-align: center;
+.divider {
+    width: %100;
+    border-top: 1px solid #f8f8f8;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+.transparent{
+    background: rgba(255,255,255, 0.4);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0px 0px 70px 1px rgba(0, 0, 0, 0.2);
+
+}
+.center {
+     float: none;
+     margin-left: auto;
+     margin-right: auto;
 }
 
 p {
@@ -12,9 +31,9 @@ p {
 }
 
 body {
-  padding: 50px;
+  padding-top: 100px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: lightblue;
+  background-color: lightblue
 }
 
 #noCenter {
@@ -26,8 +45,8 @@ body {
 }
 
 #index {
-  text-align: center;
-  padding-top: 35px;
+  margin-left: 30px;
+  margin-right: 30px;
 }
 
 a {

@@ -1,14 +1,30 @@
-<h1>Connections</h1>
-<p> This is some subtext </p>
+<!DOCTYPE html>
 
-<div id="index">
+<!--<div id="index">
 <a href="/login">Log in</a><br>
 <a href="/signup">Sign up</a><br>
-<!--<a href="/logout">Log out</a><br>-->
+<a href="/logout">Log out</a><br>
 <a href="/profile">User profile</a>
 {{#if user.username}}
 <p>You are logged in as {{user.username}}.</p>
 {{else}}
 <p></p>
 {{/if}}
+</div>-->
+
+<br>
+<div class="container">
+  <div class="col-sm-6 center transparent">
+    <div class="row">
+    <h1>connections</h1>
+    <p> Welcome to a world that connects you to other people.</p>
+    <hr class="divider"/>
+    </div>
+    <div class="row">
+      {{#if user.username}}
+      <p>You are logged in as {{user.username}}.</p></div>
+      {{else}}
+      <p></p>
+      {{/if}}
+  </div>
 </div>

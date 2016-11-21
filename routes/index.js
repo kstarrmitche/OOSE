@@ -68,7 +68,7 @@ function runQuery_profile(req, res, client, done, next) {
     }
     else {
       console.log(result);
-      res.render('profile', {rows: result.rows, user: req.user} );
+      res.render('profile', {user: req.user} );
     }
   };
 }
