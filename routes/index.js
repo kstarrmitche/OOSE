@@ -34,7 +34,7 @@ router.post('/login',
     if (req.user.type == 'content'){
       res.redirect('/content');
     }
-    else if (req.user.type == 'ad'){
+    else if (req.user.type == 'ad' || req.user.type == 'content'){
       res.redirect('/ad');
     }
     else{
