@@ -37,6 +37,7 @@ router.post('/login',
     else if (req.user.type == 'ad'){
       res.redirect('/ad');
     }
+
     else{
       res.redirect('/user');
     }
@@ -79,7 +80,7 @@ function connectDB_profile(req, res, next) {
       console.log(err);
       return next(err);
     }
-    client.query('SELECT location FROM  users WHERE username=$1', [req.user.username], runQuery_profile(req, res, client, done, next))
+    client.query('SELECT location FROM  WHERE username=$1', [req.user.username], runQuery_profile(req, res, client, done, next))
   };
 }
 
@@ -121,9 +122,6 @@ function runQuery_content(req, res, client, done, next) {
 
 router.get('/ad',loggedIn,function(req, res, next){
       // connect DB and read table assignments
-	  if(req.user.type != 'ad'){
-		  res.redirect('/');
-	  }
       pg.connect(process.env.DATABASE_URL + "?ssl=true", connectDB_ad(req,res,next));
 
 });
