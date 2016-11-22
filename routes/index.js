@@ -203,7 +203,7 @@ function createUser(req, res, client, done, next){
   var pwd = encryptPWD(req.body.password);
 console.log(req.body);
 console.log(req.body.radio);
-  client.query('INSERT INTO users (username, password, type, firstname, lastname, address, birthday) VALUES($1, $2, $3, $4,$5, $6, $7)', [req.body.username, pwd, req.body.radio, req.body.firstname, req.body.lastname, req.body.address, req.body.birthdays], function(err, result) {
+  client.query('INSERT INTO users (username, password, type, firstname, lastname, location, birthday) VALUES($1, $2, $3, $4,$5, $6, $7)', [req.body.username, pwd, req.body.radio, req.body.firstname, req.body.lastname, req.body.address, req.body.birthdays], function(err, result) {
     done(); // done all queries
     if (err) {
       console.log("unable to query INSERT");
