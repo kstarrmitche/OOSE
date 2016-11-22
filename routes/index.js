@@ -80,7 +80,7 @@ function connectDB_profile(req, res, next) {
       console.log(err);
       return next(err);
     }
-    client.query('SELECT * FROM  WHERE username=$1', [req.user.username], runQuery_profile(req, res, client, done, next))
+    client.query('SELECT * FROM users WHERE username=$1', [req.user.username], runQuery_profile(req, res, client, done, next))
   };
 }
 
