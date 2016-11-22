@@ -37,7 +37,6 @@ router.post('/login',
     else if (req.user.type == 'ad'){
       res.redirect('/ad');
     }
-
     else{
       res.redirect('/user');
     }
@@ -122,6 +121,8 @@ function runQuery_content(req, res, client, done, next) {
 
 router.get('/ad',loggedIn,function(req, res, next){
       // connect DB and read table assignments
+	  if(req.user.type != 'ad')
+		  res.redirect('/');
       pg.connect(process.env.DATABASE_URL + "?ssl=true", connectDB_ad(req,res,next));
 
 });
