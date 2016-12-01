@@ -57,7 +57,7 @@ function loggedIn(req, res, next) {
   }
 }
 
-router.get('/upload',function(req,res) {
+router.get('/upload',loggedIn,function(req,res) {
 	res.render('upload');
 });
 
