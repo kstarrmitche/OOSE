@@ -1,12 +1,5 @@
 <!DOCTYPE html>
-Handlebars.registerHelper('link', function(text, url) {
-  text = Handlebars.Utils.escapeExpression(text);
-  url  = Handlebars.Utils.escapeExpression(url);
 
-  var result = '<a href="' + url + '">' + text + '</a>';
-
-  return new Handlebars.SafeString(result);
-});
 <div class="col-sm-6 center transparent">
 <p>Welcome to your profile, <b>{{user.username}}</b>!</p>
 <br><br>
