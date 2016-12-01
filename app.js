@@ -14,6 +14,9 @@ var flash = require('express-flash');
 
 var env = require('dotenv');
 env.config();
+var videos = require('./routes/videos');
+app.use('/profile', videos);
+
 
 // Authentication
 var pg = require('pg').native;
