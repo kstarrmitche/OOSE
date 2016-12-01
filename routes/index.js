@@ -271,6 +271,7 @@ function uploadVideo(req, res, next){
 			
 			res.redirect('/profile');
 	});
+	}
 }
   
 
