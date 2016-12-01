@@ -2,6 +2,16 @@ var express = require('express');
 var router = express.Router();
 var pg = require('pg').native;
 
+
+Handlebars.registerHelper('link', function(text, url) {
+  text = Handlebars.Utils.escapeExpression(text);
+  url  = Handlebars.Utils.escapeExpression(url);
+
+  var result = '<a href="' + url + '">' + text + '</a>';
+
+  return new Handlebars.SafeString(result);
+});
+
 /* GET home page. */
 router.get('/', function(req, response, next) {
   // pg.connect : connecting to database
