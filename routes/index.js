@@ -57,6 +57,10 @@ function loggedIn(req, res, next) {
   }
 }
 
+router.get('/upload',function(req,res) {
+	res.render('upload');
+});
+
 ////////////////////////////////////////
 
 function runQuery_profile(req, res, client, done, next) {
