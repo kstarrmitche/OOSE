@@ -261,7 +261,7 @@ function uploadVideo(req, res, next){
 		
 		console.log("Upload video");
 		var thisDate = new Date();
-		client.query('INSERT INTO videos (videoTitle, author, videoURL, tags, uploadDate) VALUES($1, $2, $3 {$4, $5, $6} $7)', [req.body.videoTitle, req.user, req.body.videoURL, req.body.tag1, req.body.tag2, req.body.tag2, thisDate], function(err,result){
+		client.query('INSERT INTO videos (videoTitle, author, videoURL, tags, uploadDate) VALUES($1, $2, $3, {$4, $5, $6}, $7)', [req.body.videoTitle, req.user, req.body.videoURL, req.body.tag1, req.body.tag2, req.body.tag3, thisDate], function(err,result){
 			done();
 			if(err){
 				console.log("Unable to query INSERT");
