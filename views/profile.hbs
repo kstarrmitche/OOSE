@@ -13,9 +13,10 @@
 
 <table>
 {{#each rows}}
-	<tr> <td><a href="{{ videoURL }}">{{ videoTitle }}</a></td></tr>
+	<tr> <td>{{link videoTitle videoURL}}</td> </tr>
 	<tr> <td>{{ tag1 }}</td> <td>{{ tag2 }}</td> <td>{{ tag3 }}</td> </tr>
 	<tr> <td>{{ uploadDate }}</td> </tr>
+	<br>
 {{/each}}
 </table>
 <a class="btn btn-lg btn-primary btn-block" href="/" role="button">Go Back</a><br>
