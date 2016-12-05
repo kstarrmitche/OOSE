@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var pg = require('pg').native;
-
+var Handlebars = require('handlebars');
 
 Handlebars.registerHelper('link', function(text, url) {
   text = Handlebars.Utils.escapeExpression(text);
