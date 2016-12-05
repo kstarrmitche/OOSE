@@ -15,7 +15,7 @@ var flash = require('express-flash');
 var env = require('dotenv');
 env.config();
 var videos = require('./routes/videos');
-app.use('/profile', videos);
+
 
 
 // Authentication
@@ -99,6 +99,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/profile', videos);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
