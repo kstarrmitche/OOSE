@@ -33,7 +33,7 @@ p {
 body {
   padding-top: 100px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: lightblue
+  background-color: rgb(67, 73, 81);
 }
 
 #noCenter {
