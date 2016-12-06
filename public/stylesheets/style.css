@@ -3,7 +3,7 @@
 h1 {
   font-size: 52px;
   font-family: "code_pro_demoregular", Arial, sans-serif;
-  color: white;
+  color: rgb(116, 120, 127);
   text-align: center;
 }
 
@@ -41,7 +41,7 @@ body {
 }
 
 #quizArea {
-  background-color: rgb(116, 120, 127);
+  background-color: white;
 }
 
 #index {
