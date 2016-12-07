@@ -22,9 +22,6 @@
   }
   // showPosition is callback function: getCurrentPosition passes position (aka event handler)
   function showPosition(position) {
-    x.innerHTML = "Latitude: " + position.coords.latitude +
-                  "<br>Longitude: " + position.coords.longitude;
-
     var xhr = new XMLHttpRequest();
     // load and error are events
     xhr.addEventListener("load", transferComplete);
@@ -50,7 +47,7 @@
   }
   </script>
 
-  <form class="form-signup" method="post" action="signup">
+  <form class="form-signup" method="post" action="signup" id="demo">
     <h2 class="form-signup-heading">Sign up!</h2>
 
     <label class="form-check-label" for="content">
@@ -91,6 +88,7 @@
 
 
   <button class="btn btn-lg btn-primary btn-block" type="submit">Sign me up!</button>
+
   <button class="btn btn-lg btn-primary btn-block" onclick="getLocation()">Auto Fill Location</button>
   </form>
 
