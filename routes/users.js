@@ -145,7 +145,7 @@ function uploadVideo(req, res, next){
 			console.log("Unable to connect to database");
 			return next(err);
 		}
-		
+
 		console.log("Upload video");
 		var thisDate = new Date();
 		client.query('INSERT INTO videos (videoTitle, author, videoURL, tag1, tag2, tag3, uploadDate) VALUES($1, $2, $3, $4, $5, $6, $7)', [req.body.videoTitle, req.user, req.body.videoURL, req.body.tag1, req.body.tag2, req.body.tag3, thisDate], function(err,result){
@@ -154,13 +154,13 @@ function uploadVideo(req, res, next){
 				console.log("Unable to query INSERT");
 				return next(err);
 			}
-			console.log("Video upload successful")
-			
+			console.log("Video upload successful");
+
 			res.redirect('/profile');
 	});
-	}
+};
 }
-  
+
 
 router.post('/signup', function(req, res, next) {
     // Reject users
@@ -180,6 +180,6 @@ router.post('/signup', function(req, res, next) {
 
 router.post('/upload', function(req, res, next) {
 	pg.connect(process.env.DATABASE_URL + "?ssl=true", uploadVideo(req,res,next));
-}); 
-  
+});
+
 module.exports = router;
