@@ -10,6 +10,45 @@
     </div>
 
 <div class="row">
+  <script>
+  var x = document.getElementById("demo");
+  function getLocation() {
+    // navigator is provided by DOM : latitude and longitude
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+      x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+  }
+  // showPosition is callback function: getCurrentPosition passes position (aka event handler)
+  function showPosition(position) {
+    x.innerHTML = "Latitude: " + position.coords.latitude +
+                  "<br>Longitude: " + position.coords.longitude;
+
+    var xhr = new XMLHttpRequest();
+    // load and error are events
+    xhr.addEventListener("load", transferComplete);
+    xhr.open("GET", "http://nominatim.openstreetmap.org/reverse?" +
+            "format=json&lat=" + position.coords.latitude +
+            "&lon=" + position.coords.longitude);
+    xhr.send();
+    // inner function
+    function transferComplete(){
+      //console.log(xhr.response);
+      // xhr.response is just a string.
+      // JSON.parse will convert the string to javascript Object Notation
+      var data = JSON.parse(xhr.response);
+      if (data.address.house_number) {
+        document.getElementById('address').value = data.address.house_number + " ";
+      }
+      document.getElementById('address').value += data.address.road;
+      document.getElementById('location').value = (data.address.town) ? data.address.town : data.address.city;
+      document.getElementById('state').value = data.address.state;
+      document.getElementById('zip').value = data.address.postcode;
+      document.getElementById("geolocation").innerHTML = JSON.stringify(data);
+    }
+  }
+  </script>
 
   <form class="form-signup" method="post" action="signup">
     <h2 class="form-signup-heading">Sign up!</h2>
@@ -43,7 +82,7 @@
   <input type="text" name="lastname" class="form-control" placeholder="Last Name" required><br>
 
   <label for="location" class="sr-only">Location</label>
-  <input type="text" id="city" name="location" class="form-control" placeholder="Location" required><br>
+  <input type="text" name="location" class="form-control" placeholder="Location" required><br>
 
   <label for="birthday" class="sr-only">Birthday</label>
   <input type="date" name="birthday" class="form-control" placeholder="Birthday" required><br>
@@ -53,45 +92,6 @@
   <button class="btn btn-lg btn-primary btn-block" onclick="getLocation()">Auto Fill Location</button>
   </form>
 
-  <script>
-  var x = document.getElementById("demo");
-  function getLocation() {
-    // navigator is provided by DOM : latitude and longitude
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-      x.innerHTML = "Geolocation is not supported by this browser.";
-    }
-  }
-  // showPosition is callback function: getCurrentPosition passes position (aka event handler)
-  function showPosition(position) {
-    x.innerHTML = "Latitude: " + position.coords.latitude +
-                  "<br>Longitude: " + position.coords.longitude;
-
-    var xhr = new XMLHttpRequest();
-    // load and error are events
-    xhr.addEventListener("load", transferComplete);
-    xhr.open("GET", "http://nominatim.openstreetmap.org/reverse?" +
-            "format=json&lat=" + position.coords.latitude +
-            "&lon=" + position.coords.longitude);
-    xhr.send();
-    // inner function
-    function transferComplete(){
-      //console.log(xhr.response);
-      // xhr.response is just a string.
-      // JSON.parse will convert the string to javascript Object Notation
-      var data = JSON.parse(xhr.response);
-      if (data.address.house_number) {
-        document.getElementById('address').value = data.address.house_number + " ";
-      }
-      document.getElementById('address').value += data.address.road;
-      document.getElementById('city').value = (data.address.town) ? data.address.town : data.address.city;
-      document.getElementById('state').value = data.address.state;
-      document.getElementById('zip').value = data.address.postcode;
-      document.getElementById("geolocation").innerHTML = JSON.stringify(data);
-    }
-  }
-  </script>
 {{#if error}}
 <p>Username already exists</p>
 {{/if}}
