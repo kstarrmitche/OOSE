@@ -88,7 +88,7 @@
         //document.getElementById('address').value += data.address.road;
 
         document.getElementById('city').value = (data.address.town) ? data.address.town : data.address.city;
-        document.getElementById('debug').innerHTML = (data.address.town) ? data.address.town : data.address.city;
+        //document.getElementById('debug').innerHTML = (data.address.town) ? data.address.town : data.address.city;
         document.getElementById('state').value = data.address.state;
         document.getElementById('zip').value = data.address.postcode;
         document.getElementById("geolocation").innerHTML = JSON.stringify(data);
