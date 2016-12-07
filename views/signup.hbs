@@ -66,13 +66,14 @@
     // showPosition is callback function: getCurrentPosition passes position (aka event handler)
     function showPosition(position) {
       var xhr = new XMLHttpRequest();
-      var data2 = JSON.parse(xhr.response);
       // load and error are events
       xhr.addEventListener("load", transferComplete);
       xhr.open("GET", "http://nominatim.openstreetmap.org/reverse?" +
               "format=json&lat=" + position.coords.latitude +
               "&lon=" + position.coords.longitude);
       xhr.send();
+
+      var data2 = JSON.parse(xhr.response);
       x.innerHTML = "City: " + (data2.address.town) ? data2.address.town : data2.address.city +
                     "<br>State: " +  data2.address.state +
                     "<br>ZIP Code: " + data2.address.postcode;
