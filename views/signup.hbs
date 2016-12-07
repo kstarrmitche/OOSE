@@ -6,10 +6,9 @@
     <h1>connections</h1>
     <p> Welcome to a world that connects you to other people.</p>
     <hr class="divider"/>
-
     </div>
+<div class="row">'
 
-<div class="row">
   <script>
   var x = document.getElementById("demo");
   function getLocation() {
@@ -35,10 +34,7 @@
       // xhr.response is just a string.
       // JSON.parse will convert the string to javascript Object Notation
       var data = JSON.parse(xhr.response);
-      if (data.address.house_number) {
-        document.getElementById('address').value = data.address.house_number + " ";
-      }
-      document.getElementById('address').value += data.address.road;
+      //document.getElementById('address').value += data.address.road;
       document.getElementById('city').value = (data.address.town) ? data.address.town : data.address.city;
       document.getElementById('state').value = data.address.state;
       document.getElementById('zip').value = data.address.postcode;
