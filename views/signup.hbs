@@ -42,7 +42,7 @@
         document.getElementById('address').value = data.address.house_number + " ";
       }
       document.getElementById('address').value += data.address.road;
-      document.getElementById('location').value = (data.address.town) ? data.address.town : data.address.city;
+      document.getElementById('city').value = (data.address.town) ? data.address.town : data.address.city;
       document.getElementById('state').value = data.address.state;
       document.getElementById('zip').value = data.address.postcode;
       document.getElementById("geolocation").innerHTML = JSON.stringify(data);
@@ -82,7 +82,7 @@
   <input type="text" name="lastname" class="form-control" placeholder="Last Name" required><br>
 
   <label for="location" class="sr-only">Location</label>
-  <input type="text" name="location" class="form-control" placeholder="Location" required><br>
+  <input type="text" id="city" name="location" class="form-control" placeholder="Location" required><br>
 
   <a href="#" onclick="getLocation()">Auto fill</a><br>
 
