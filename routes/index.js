@@ -275,7 +275,7 @@ function uploadVideo(req, res, next){
     console.log(req.user.username);
     console.log("url with watch: ",req.body.videoURL);
     var url2 = req.body.videoURL;
-    var url = url2.replace("watch?v=", "v/");
+    var url = url2.replace("watch?v=", "embed/");
     console.log("url without watch: ", url);
 		client.query('INSERT INTO videos (videoTitle, author, videoURL, tag1, tag2, tag3, uploadDate) VALUES($1, $2, $3, $4, $5, $6, $7);', [req.body.videoTitle, req.user.username, url, req.body.tag1, req.body.tag2, req.body.tag3, thisDate], function(err,result){
 			//done();
