@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title> Upload Video </title>
+<style>
+p  {
+    color: red;
+    font-family: courier;
+    font-size: 160%;
+}
+</style>
+</head>
+
+  <body>
+    {{#if success}}
+      <p> You have uploaded the video: <h1>{{title}}</h1></p>
+    {{/if}}
+    <center><iframe id = "player" type="text/html" src="{{videourl}}" width="480" height="400"></iframe></center>
+
+
+  </body>
+</html>

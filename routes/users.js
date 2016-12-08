@@ -44,7 +44,7 @@ router.get('/logout', function(req, res){
 
 function loggedIn(req, res, next) {
   if (req.user) {
-    next(); // req.user exisit so go to the next function (right after loggedIn)
+    next(); // req.user exist so go to the next function (right after loggedIn)
   } else {
     res.redirect('login'); // user doesn't exisit redirect to localhost:3000/users/login
   }
@@ -77,6 +77,64 @@ router.get('/signup',function(req, res) {
 router.get('/upload',function(req,res) {
 	res.render('upload');
 });
+
+router.get('/video',function(req,res){
+  res.render('video');
+});
+//=============
+router.get('/user', loggedIn, function(req, res, next) { //regular user
+    pg.connect(process.env.DATABASE_URL + "?ssl=true", connectDB_video(req,res,next));
+});
+
+function connectDB_video(req, res, next) {
+  return function(err, client, done) {
+    if (err){ // connection failed
+      console.log("Unable to connect to database");
+      return next(err);
+    }
+    console.log("run profile select");
+    //client.query('SELECT * FROM assignment WHERE username=$1',[req.user.username], runQuery_notAdmin(req, res, client, done, next));
+    client.query('SELECT * FROM video WHERE username = $1',[req.user.username], runQuery_video(req, res, client, done, next));
+  };
+}
+
+function runQuery_video(req, res, client, done, next) {
+  return function(err, result){
+    console.log(result.rows.length);
+    //if author == req.user get result
+    if (err) {
+      console.log("unable to query SELECT ");
+      next(err); // throw error to error.hbs. only for test purpose
+    }
+    else {
+      console.log(result);
+      /*for (j=0; j<result.rows.length; j++) {
+        if (result.rows[j].website_name == "Facebook") {
+          var f_url = result.rows[j].url;
+        } else {
+          if (result.rows[j].website_name == "Twitter") {
+            var t_url = result.rows[j].url;
+          } else {
+            if (result.rows[j].website_name == "YouTube") {
+              var y_url = result.rows[j].url;
+            } else {
+              if (result.rows[j].website_name == "Instagram") {
+                var i_url = result.rows[j].url;
+              }
+            }
+          }
+        }*/
+
+      }
+
+      res.render('/video', { title: 'Dashboard', user: req.user, videourl: url });
+
+  };
+}
+
+//===========
+
+
 
 // check if username has spaces, DB will whine about that
 function validUsername(username) {
@@ -145,7 +203,7 @@ function uploadVideo(req, res, next){
 			console.log("Unable to connect to database");
 			return next(err);
 		}
-		
+
 		console.log("Upload video");
 		var thisDate = new Date();
 		client.query('INSERT INTO videos (videoTitle, author, videoURL, tag1, tag2, tag3, uploadDate) VALUES($1, $2, $3, $4, $5, $6, $7)', [req.body.videoTitle, req.user, req.body.videoURL, req.body.tag1, req.body.tag2, req.body.tag3, thisDate], function(err,result){
@@ -154,13 +212,15 @@ function uploadVideo(req, res, next){
 				console.log("Unable to query INSERT");
 				return next(err);
 			}
-			console.log("Video upload successful")
-			
-			res.redirect('/profile');
+      else {
+			console.log("Video upload successful");
+      console.log("this should be going to video");
+			res.redirect('/video');
+    }
 	});
-	}
+};
 }
-  
+
 
 router.post('/signup', function(req, res, next) {
     // Reject users
@@ -180,6 +240,6 @@ router.post('/signup', function(req, res, next) {
 
 router.post('/upload', function(req, res, next) {
 	pg.connect(process.env.DATABASE_URL + "?ssl=true", uploadVideo(req,res,next));
-}); 
-  
+});
+
 module.exports = router;

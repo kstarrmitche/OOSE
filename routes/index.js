@@ -61,6 +61,10 @@ router.get('/upload',function(req,res) {
 	res.render('upload');
 });
 
+router.get('/video',function(req,res){
+  res.render('video');
+});
+
 ////////////////////////////////////////
 
 function runQuery_profile(req, res, client, done, next) {
@@ -84,7 +88,7 @@ function connectDB_profile(req, res, next) {
       console.log(err);
       return next(err);
     }
-    client.query('SELECT * FROM users WHERE username=$1', [req.user.username], runQuery_profile(req, res, client, done, next))
+    client.query('SELECT * FROM users WHERE username=$1', [req.user.username], runQuery_profile(req, res, client, done, next));
   };
 }
 
@@ -258,22 +262,85 @@ function uploadVideo(req, res, next){
 			console.log("Unable to connect to database");
 			return next(err);
 		}
-		
+
 		console.log("Upload video");
 		var thisDate = new Date();
-		client.query('INSERT INTO videos (videoTitle, author, videoURL, tag1, tag2, tag3, uploadDate) VALUES($1, $2, $3, $4, $5, $6, $7)', [req.body.videoTitle, req.user, req.body.videoURL, req.body.tag1, req.body.tag2, req.body.tag3, thisDate], function(err,result){
-			done();
+
+		client.query('INSERT INTO videos (videoTitle, author, videoURL, tag1, tag2, tag3, uploadDate) VALUES($1, $2, $3, $4, $5, $6, $7);', [req.body.videoTitle, req.user, req.body.videoURL, req.body.tag1, req.body.tag2, req.body.tag3, thisDate], function(err,result){
+			//done();
 			if(err){
 				console.log("Unable to query INSERT");
 				return next(err);
 			}
-			console.log("Video upload successful")
-			
-			res.redirect('/profile');
-	});
-	}
+      else{
+        //client.query('SELECT * FROM videos WHERE videoURL=$3',[req.body.videoURL],);
+        /*var url2 = req.body.videoURL;
+      console.log(result);
+      var url = url2.replace("watch?v=", "v/");
+      console.log(result.rows);
+			console.log("Video upload successful");
+      console.log("this is the url: ", req.body.videoURL);
+      console.log("this is the url: ", url);
+			res.render('video',{videoURL: url, success:"true"});*/
+      console.log("Video upload successful");
+      client.query('SELECT * FROM videos WHERE videoURL=$1',[req.body.videoURL],runQuery_video(req, res, client, done, next));
+    }
+    }
+	);
+};
 }
-  
+
+function runQuery_video(req, res, client, done, next) {
+  return function(err, result){
+    //console.log(result.rows.length);
+    //console.log(result);
+    //if author == req.user get result
+    if (err) {
+      console.log("unable to query SELECT from runQuery_Video ");
+      next(err); // throw error to error.hbs. only for test purpose
+    }
+    else {
+      console.log(result);
+      console.log("in runQuery_video");
+      /*for (j=0; j<result.rows.length; j++) {
+        if (result.rows[j].website_name == "Facebook") {
+          var f_url = result.rows[j].url;
+        } else {
+          if (result.rows[j].website_name == "Twitter") {
+            var t_url = result.rows[j].url;
+          } else {
+            if (result.rows[j].website_name == "YouTube") {
+              var y_url = result.rows[j].url;
+            } else {
+              if (result.rows[j].website_name == "Instagram") {
+                var i_url = result.rows[j].url;
+              }
+            }
+          }
+        }*/
+          console.log("from rows:", result.rows);
+
+          //console.log(result.videoURL);
+          //console.log(result.rows.length);
+          console.log(result.rows[0].videourl);
+          //console.log("fields: ", result.fields[1]);
+          //console.log(req.body.videoURL);
+          //console.log(result.rows[1].id);
+          //console.log("id: ", result.rows[1].id);
+          //console.log("2: ", result.rows[1].tag1);
+          //console.log("3: ", result.rows[1]);
+          console.log(result.rows[0].videotitle);
+          console.log(req.body.videoURL);
+          var url2 = result.rows[0].videourl;
+          var url = url2.replace("watch?v=", "v/");
+          console.log(url);
+
+
+      res.render('video', {videourl: url, success:"true", title: result.rows[0].videotitle });
+    }
+  };
+}
+
 
 router.post('/signup', function(req, res, next) {
     // Reject users
