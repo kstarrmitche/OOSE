@@ -6,51 +6,94 @@
     <h1>connections</h1>
     <p> Welcome to a world that connects you to other people.</p>
     <hr class="divider"/>
-
     </div>
-
 <div class="row">
+  <form id="demo" style="float:right;"></form>
+    <form class="form-signup" method="post" action="signup">
+      <h2 class="form-signup-heading">Sign up!</h2>
 
-  <form class="form-signup" method="post" action="signup">
-    <h2 class="form-signup-heading">Sign up!</h2>
+      <label class="form-check-label" for="content">
+        <input class="form-check-input" type="radio" name="radio" id="content" value="content">
+        Content Provider
+      </label><br>
 
-    <label class="form-check-label" for="content">
-      <input class="form-check-input" type="radio" name="radio" id="content" value="content">
-      Content Provider
-    </label><br>
+      <label class="form-check-label" for="ad">
+        <input class="form-check-input" type="radio" name="radio" id="ad" value="ad">
+        Ad Provider
+      </label>
 
-    <label class="form-check-label" for="ad">
-      <input class="form-check-input" type="radio" name="radio" id="ad" value="ad">
-      Ad Provider
-    </label>
-	
-	 <label class="form-check-label" for="user">
-      <input class="form-check-input" type="radio" name="radio" id="user" value="user">
-      User
-    </label>
-	
+  	 <label class="form-check-label" for="user">
+        <input class="form-check-input" type="radio" name="radio" id="user" value="user">
+        User
+      </label>
 
-  <label for="username" class="sr-only">Email address</label>
-  <input type="text" name="username" class="form-control" placeholder="User Name" required autofocus><br>
-  
-  <label for="password" class="sr-only">Password</label>
-  <input type="password" name="password" class="form-control" placeholder="Password" required><br>
-  
-  <label for="firstname" class="sr-only">First Name</label>
-  <input type="text" name="firstname" class="form-control" placeholder="First Name" required><br>
-  
-  <label for="lastname" class="sr-only">Last Name</label>
-  <input type="text" name="lastname" class="form-control" placeholder="Last Name" required><br>
-  
-  <label for="location" class="sr-only">Location</label>
-  <input type="text" name="location" class="form-control" placeholder="location" required><br>
-  
-  <label for="birthday" class="sr-only">Birthday</label>
-  <input type="date" name="birthday" class="form-control" placeholder="Birthday" required><br>
-  
-  
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign me up!</button>
-  </form>
+
+    <label for="username" class="sr-only">Email address</label>
+    <input type="text" name="username" class="form-control" placeholder="User Name" required autofocus><br>
+
+    <label for="password" class="sr-only">Password</label>
+    <input type="password" name="password" class="form-control" placeholder="Password" required><br>
+
+    <label for="firstname" class="sr-only">First Name</label>
+    <input type="text" name="firstname" class="form-control" placeholder="First Name" required><br>
+
+    <label for="lastname" class="sr-only">Last Name</label>
+    <input type="text" name="lastname" class="form-control" placeholder="Last Name" required><br>
+
+    <label for="location" class="sr-only">Location</label>
+    <input type="text" id="city" name="location" class="form-control" placeholder="Location" required><br>
+
+    <label for="birthday" class="sr-only">Birthday</label>
+    <input type="date" name="birthday" class="form-control" placeholder="Birthday" required><br>
+
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign me up!</button>
+    <button type="button" class="btn btn-lg btn-primary btn-block" onclick="getLocation()">Get my Location</button>
+    </form>
+
+    <p id="debug"></p>
+  <script>
+    var x = document.getElementById("demo");
+    function getLocation() {
+      // navigator is provided by DOM : latitude and longitude
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+      }
+    }
+    // showPosition is callback function: getCurrentPosition passes position (aka event handler)
+    function showPosition(position) {
+      var xhr = new XMLHttpRequest();
+      // load and error are events
+      xhr.addEventListener("load", transferComplete);
+      xhr.open("GET", "http://nominatim.openstreetmap.org/reverse?" +
+              "format=json&lat=" + position.coords.latitude +
+              "&lon=" + position.coords.longitude);
+      xhr.send();
+
+      var data2 = JSON.parse(xhr.response);
+      x.innerHTML = "City: " + (data2.address.town) ? data2.address.town : data2.address.city +
+                    "<br>State: " +  data2.address.state +
+                    "<br>ZIP Code: " + data2.address.postcode;
+
+      // inner function
+      function transferComplete(){
+        //console.log(xhr.response);
+        // xhr.response is just a string.
+        // JSON.parse will convert the string to javascript Object Notation
+        var data = JSON.parse(xhr.response);
+        //document.getElementById('address').value += data.address.road;
+        //document.getElementById('address').value += data.address.road;
+
+        document.getElementById('city').value = (data.address.town) ? data.address.town : data.address.city;
+        //document.getElementById('debug').innerHTML = (data.address.town) ? data.address.town : data.address.city;
+        document.getElementById('state').value = data.address.state;
+        document.getElementById('zip').value = data.address.postcode;
+        document.getElementById("geolocation").innerHTML = JSON.stringify(data);
+      }
+    }
+    </script>
 
 {{#if error}}
 <p>Username already exists</p>

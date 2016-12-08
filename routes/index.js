@@ -13,15 +13,7 @@ router.get('/login', function(req, res){
     res.render('login', {success:req.query.success, error: req.flash('error')}); //display login.hbs
 });
 
-/*router.post('/login',
-  // This is where authentication happens
-  // authentication locally (not using passport-google, passport-twitter, passport-github...)
-  passport.authenticate('local', { failureRedirect: 'login', failureFlash:true }),
-  function(req, res,next) {
-    // res.json(req.user);
-    // res.redirect('/users/profile')
-    res.redirect('profile'); // Successful. redirect to localhost:3000/users/profile
-});*/
+
 router.post('/login',
   // This is where authentication happens
   // authentication locally (not using passport-google, passport-twitter, passport-github...)
@@ -57,7 +49,7 @@ function loggedIn(req, res, next) {
   }
 }
 
-router.get('/upload',function(req,res) {
+router.get('/upload',loggedIn,function(req,res) {
 	res.render('upload');
 });
 
@@ -273,15 +265,6 @@ function uploadVideo(req, res, next){
 				return next(err);
 			}
       else{
-        //client.query('SELECT * FROM videos WHERE videoURL=$3',[req.body.videoURL],);
-        /*var url2 = req.body.videoURL;
-      console.log(result);
-      var url = url2.replace("watch?v=", "v/");
-      console.log(result.rows);
-			console.log("Video upload successful");
-      console.log("this is the url: ", req.body.videoURL);
-      console.log("this is the url: ", url);
-			res.render('video',{videoURL: url, success:"true"});*/
       console.log("Video upload successful");
       client.query('SELECT * FROM videos WHERE videoURL=$1',[req.body.videoURL],runQuery_video(req, res, client, done, next));
     }
@@ -292,9 +275,6 @@ function uploadVideo(req, res, next){
 
 function runQuery_video(req, res, client, done, next) {
   return function(err, result){
-    //console.log(result.rows.length);
-    //console.log(result);
-    //if author == req.user get result
     if (err) {
       console.log("unable to query SELECT from runQuery_Video ");
       next(err); // throw error to error.hbs. only for test purpose
@@ -302,37 +282,13 @@ function runQuery_video(req, res, client, done, next) {
     else {
       console.log(result);
       console.log("in runQuery_video");
-      /*for (j=0; j<result.rows.length; j++) {
-        if (result.rows[j].website_name == "Facebook") {
-          var f_url = result.rows[j].url;
-        } else {
-          if (result.rows[j].website_name == "Twitter") {
-            var t_url = result.rows[j].url;
-          } else {
-            if (result.rows[j].website_name == "YouTube") {
-              var y_url = result.rows[j].url;
-            } else {
-              if (result.rows[j].website_name == "Instagram") {
-                var i_url = result.rows[j].url;
-              }
-            }
-          }
-        }*/
-          console.log("from rows:", result.rows);
 
-          //console.log(result.videoURL);
-          //console.log(result.rows.length);
+        //result.rows[0]."field name" is used to pull from the results of the form entries of the user
           console.log(result.rows[0].videourl);
-          //console.log("fields: ", result.fields[1]);
-          //console.log(req.body.videoURL);
-          //console.log(result.rows[1].id);
-          //console.log("id: ", result.rows[1].id);
-          //console.log("2: ", result.rows[1].tag1);
-          //console.log("3: ", result.rows[1]);
           console.log(result.rows[0].videotitle);
-          console.log(req.body.videoURL);
           var url2 = result.rows[0].videourl;
-          var url = url2.replace("watch?v=", "v/");
+          var url = url2.replace("watch?v=", "v/"); //must change the watch?v= to v/ so the video will panel-primary
+          //as Youtube has changed permissions for embedding videos
           console.log(url);
 
 
