@@ -3,30 +3,32 @@
 <div class="container">
     <div class="col-sm-6 center transparent">
       <div class="row">
-    <h1>connections</h1>
+
+        <img id="img_main" src="/img/link.png">
     <p> Welcome to a world that connects you to other people.</p>
     <hr class="divider"/>
     </div>
+<div class="index">
 <div class="row">
-  <form id="demo" style="float:right;"></form>
+  <form id="demo" ></form>
     <form class="form-signup" method="post" action="signup">
       <h2 class="form-signup-heading">Sign up!</h2>
-
+      <div class="form-check">
       <label class="form-check-label" for="content">
         <input class="form-check-input" type="radio" name="radio" id="content" value="content">
         Content Provider
-      </label><br>
-
+      </label><br></div>
+<div class="form-check">
       <label class="form-check-label" for="ad">
         <input class="form-check-input" type="radio" name="radio" id="ad" value="ad">
         Ad Provider
-      </label>
-
+      </label></div>
+      <div class="form-check">
   	 <label class="form-check-label" for="user">
         <input class="form-check-input" type="radio" name="radio" id="user" value="user">
         User
       </label>
-
+    </div>
 
     <label for="username" class="sr-only">Email address</label>
     <input type="text" name="username" class="form-control" placeholder="User Name" required autofocus><br>
@@ -98,4 +100,4 @@
 {{#if error}}
 <p>Username already exists</p>
 {{/if}}
-</div></div></div>
+</div></div></div></div>

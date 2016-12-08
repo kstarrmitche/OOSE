@@ -7,6 +7,15 @@ h1 {
   text-align: center;
 }
 
+
+#img_main {
+    display: block;
+    margin: auto;
+    margin-bottom: 30px;
+    width:128px;
+    height:128px;
+}
+
 .divider {
     width: %100;
     border-top: 1px solid #f8f8f8;
@@ -33,7 +42,8 @@ p {
 body {
   padding-top: 100px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: rgb(67, 73, 81);
+  background-image: url("banner.jpg");
+  color: white;
 }
 
 #noCenter {
@@ -44,11 +54,50 @@ body {
   background-color: white;
 }
 
-#index {
+.index {
   margin-left: 30px;
   margin-right: 30px;
+
+}
+/* all this garbage is for the input textbox outline...it was ugly but this code is too lol */
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {
+  border-color: #9c9c9c;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(255, 255, 255, 0.6);
+  outline: 0 none;
+}
+
+.btn{
+  background-color: #5b3131;
+  border: 1px solid #3f1f1f;
+  box-shadow: 0 0 10px 2px rgba(42, 22, 22, 0.25) inset;
+}
+
+.btn:hover, .btn:active, .btn:visited, .btn:focus .btn:active:focus{
+  background-color: #512c2c !important;
+  border: 1px solid #3f1f1f !important;
+  box-shadow: 0 0 10px 2px rgba(42, 22, 22, 0.25) inset !important;
 }
 
 a {
-  color: #00B7FF;
+  color: #5b3131;
+
+}
+
+a:hover{
+  color: #512c2c;
 }
