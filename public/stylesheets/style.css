@@ -25,14 +25,13 @@ h1 {
 
 .transparent{
 
-  background: rgba(87,77,72, .9);
-    background-image: url("/img/gradient-squares.png");
-
+  background: rgba(140,121,121, .4);
+    background-image: url("/img/diamond-upholstery.png");
     border-radius: 15px;
     padding: 50px;
     box-shadow: 0px 0px 80px 1px rgba(0, 0, 0, 0.4);
-
 }
+
 .center {
      float: none;
      margin-left: auto;
@@ -48,6 +47,7 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-image: url("banner.jpg");
   color: white;
+  background-size:cover;
 }
 
 #noCenter {
