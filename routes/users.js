@@ -212,17 +212,15 @@ function uploadVideo(req, res, next){
 				console.log("Unable to query INSERT");
 				return next(err);
 			}
-<<<<<<< HEAD
-      else {
+           else {
 			console.log("Video upload successful");
       console.log("this should be going to video");
 			res.redirect('/video');
     }
-=======
+
 			console.log("Video upload successful");
 
 			res.redirect('/profile');
->>>>>>> 1d0b6fa218fcadd52d153ac3c47b8d29589520a0
 	});
 };
 }
