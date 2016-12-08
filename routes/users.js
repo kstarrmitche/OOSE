@@ -192,6 +192,7 @@ function connectDB(req, res, next) {
       console.log("Unable to connect to database");
       return next(err);
     }
+    //console.log(req.body.username);
     client.query('SELECT * FROM users WHERE username=$1',[req.body.username], runQuery(req, res, client, done, next));
 
   };
@@ -205,6 +206,7 @@ function uploadVideo(req, res, next){
 		}
 
 		console.log("Upload video");
+    console.log(req.user);
 		var thisDate = new Date();
 		client.query('INSERT INTO videos (videoTitle, author, videoURL, tag1, tag2, tag3, uploadDate) VALUES($1, $2, $3, $4, $5, $6, $7)', [req.body.videoTitle, req.user, req.body.videoURL, req.body.tag1, req.body.tag2, req.body.tag3, thisDate], function(err,result){
 			done();

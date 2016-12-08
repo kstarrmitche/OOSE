@@ -57,6 +57,10 @@ router.get('/video',function(req,res){
   res.render('video');
 });
 
+router.get('/catalog',function(req,res, next){
+  pg.connect(process.env.DATABASE_URL + "?ssl=true", getCatalog(req,res,next));
+});
+
 ////////////////////////////////////////
 
 function runQuery_profile(req, res, client, done, next) {
@@ -257,8 +261,12 @@ function uploadVideo(req, res, next){
 
 		console.log("Upload video");
 		var thisDate = new Date();
-
-		client.query('INSERT INTO videos (videoTitle, author, videoURL, tag1, tag2, tag3, uploadDate) VALUES($1, $2, $3, $4, $5, $6, $7);', [req.body.videoTitle, req.user, req.body.videoURL, req.body.tag1, req.body.tag2, req.body.tag3, thisDate], function(err,result){
+    console.log(req.user.username);
+    console.log("url with watch: ",req.body.videoURL);
+    var url2 = req.body.videoURL;
+    var url = url2.replace("watch?v=", "v/");
+    console.log("url without watch: ", url);
+		client.query('INSERT INTO videos (videoTitle, author, videoURL, tag1, tag2, tag3, uploadDate) VALUES($1, $2, $3, $4, $5, $6, $7);', [req.body.videoTitle, req.user.username, url, req.body.tag1, req.body.tag2, req.body.tag3, thisDate], function(err,result){
 			//done();
 			if(err){
 				console.log("Unable to query INSERT");
@@ -266,10 +274,10 @@ function uploadVideo(req, res, next){
 			}
       else{
       console.log("Video upload successful");
-      client.query('SELECT * FROM videos WHERE videoURL=$1',[req.body.videoURL],runQuery_video(req, res, client, done, next));
+      client.query('SELECT * FROM videos WHERE videoURL=$1',[url],runQuery_video(req, res, client, done, next));
     }
     }
-	);
+	);//select videourl from videos where author = 'Cpizarro'; where author = $1 [req.user.username]
 };
 }
 
@@ -286,13 +294,9 @@ function runQuery_video(req, res, client, done, next) {
         //result.rows[0]."field name" is used to pull from the results of the form entries of the user
           console.log(result.rows[0].videourl);
           console.log(result.rows[0].videotitle);
-          var url2 = result.rows[0].videourl;
-          var url = url2.replace("watch?v=", "v/"); //must change the watch?v= to v/ so the video will panel-primary
-          //as Youtube has changed permissions for embedding videos
-          console.log(url);
 
 
-      res.render('video', {videourl: url, success:"true", title: result.rows[0].videotitle });
+      res.render('video', {videourl: result.rows[0].videourl, success:"true", title: result.rows[0].videotitle });
     }
   };
 }
@@ -314,8 +318,53 @@ router.post('/signup', function(req, res, next) {
 
   });
 
+  function getCatalog(req, res, next){
+    console.log("beg of getCatalog");
+    return function(err, client, done){
+      if(err){
+        console.log("can't query getCatalog");
+        return next(err);
+      }
+      else {
+          console.log("in get catalog function");
+          console.log(req.user.username);
+            client.query('SELECT videourl FROM videos WHERE author=$1',[req.user.username],runCatalog(req, res, client, done, next));
+
+      }
+  };
+  }
+
+  function runCatalog(req, res, client, done, next){
+    return function(err, result){
+      if (err) {
+        console.log("unable to query SELECT from runCatalog");
+        next(err); // throw error to error.hbs. only for test purpose
+      }
+      else {
+        console.log(result);
+        console.log("in runCatalog");
+
+            console.log(result.rows);
+            //console.log(result.rows[0].videotitle);
+            var url = result.rows[0].videourl;
+            console.log(url);
+
+
+
+        res.render('catalog', {videourl: url, success:"true", rows:result.rows});
+
+  }
+  };
+  }
+
 router.post('/upload', function(req, res, next) {
 	pg.connect(process.env.DATABASE_URL + "?ssl=true", uploadVideo(req,res,next));
 });
+
+router.post('/catalog', function(req,res,next){
+  pg.connect(process.env.DATABASE_URL + "?ssl=true", getCatalog(req,res,next));
+
+});
+
 
 module.exports = router;
