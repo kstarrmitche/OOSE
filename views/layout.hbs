@@ -14,7 +14,7 @@
             <div class="navbar-header">
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
+                <span class="icon-bar">k</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
@@ -22,20 +22,25 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
-              <li><a href="/login" onclick="this.style.background='white'" onmouseover="this.style.background='white';" onmouseout="this.style.background='#f8f8f8';">Log In</a></li>
-                <li><a href="/signup" onmouseover="this.style.background='white';" onmouseout="this.style.background='#f8f8f8';">Sign Up</a></li>
+                {{#if user}}
                 <li><a href="/profile" onmouseover="this.style.background='white';" onmouseout="this.style.background='#f8f8f8';">Profile</a></li>
+                <li><a href="/logout" onmouseover="this.style.background='white';" onmouseout="this.style.background='#f8f8f8';">Log Out</a></li>
+                {{else}}
+                <li><a href="/login" onclick="this.style.background='white'" onmouseover="this.style.background='white';" onmouseout="this.style.background='#f8f8f8';">Log In</a></li>
+                <li><a href="/signup" onmouseover="this.style.background='white';" onmouseout="this.style.background='#f8f8f8';">Sign Up</a></li>
+                {{/if}}
               </ul>
               {{#if user}}
-              <p class="navbar-text" style="float:right">Signed in as {{user.username}}</p>
+              <p class="navbar-text" style="float:right">Signed in as <a href="/profile">{{user.username}}</a></p>
               {{/if}}
             </div><!--/.nav-collapse -->
           </div>
 
         </nav>
-        <div class="container">
-          <div class="col-sm-6 center transparent">
-    {{{body}}}
+       <div class="container">
+          <div class="col-sm-6 center transparent ">
+
+ {{{body}}}
 </div></div>
   </body>
 </html>

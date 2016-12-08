@@ -19,8 +19,12 @@
     <hr class="divider"/>
     </div>
     <div class="row">
+
       {{#if user.username}}
       <p>You are logged in as {{user.username}}.</p></div>
       {{else}}
-      <p></p>
+      <a href="/signup"><button class="btn btn-lg btn-primary btn-block">Sign me up!</button></a>
+      <br>
+      <p>or...already a user?</p>
+      <a href="/login"><button class="btn btn-lg btn-primary btn-block">Log me in!</button></a>
       {{/if}}

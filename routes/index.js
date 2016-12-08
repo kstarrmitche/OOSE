@@ -6,7 +6,10 @@ var bcrypt = require('bcryptjs');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.render('index', { user: req.user }); //display user.hbs
+  if (req.user){
+    res.redirect('/user'); //display user.hbs
+  }
+  else{res.render('index');}
 });
 
 router.get('/login', function(req, res){
@@ -356,7 +359,7 @@ router.post('/signup', function(req, res, next) {
             //console.log(result.rows[0].videotitle);
             var url = result.rows[0].videourl;
             console.log(url);
-        res.render('catalog', {videourl: url, success:"true", rows:result.rows});
+        res.render('catalog', {videourl: url, success:"true", rows:result.rows, user: req.user});
         }
         else {
           res.render('catalog', {success:"false"});
