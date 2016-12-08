@@ -26,8 +26,12 @@
                 <li><a href="/signup" onmouseover="this.style.background='white';" onmouseout="this.style.background='#f8f8f8';">Sign Up</a></li>
                 <li><a href="/profile" onmouseover="this.style.background='white';" onmouseout="this.style.background='#f8f8f8';">Profile</a></li>
               </ul>
+              {{#if user}}
+              <p class="navbar-text" style="float:right">Signed in as {{user.username}}</p>
+              {{/if}}
             </div><!--/.nav-collapse -->
           </div>
+
         </nav>
         <div class="container">
           <div class="col-sm-6 center transparent">

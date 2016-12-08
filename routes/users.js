@@ -39,7 +39,7 @@ router.post('/login',
 router.get('/logout', function(req, res){
     req.logout();
     // res.redirect('/');
-    res.redirect('/users'); // Successful. redirect to localhost:3000/users
+    res.redirect('/user'); // Successful. redirect to localhost:3000/users
 });
 
 function loggedIn(req, res, next) {
