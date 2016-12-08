@@ -6,10 +6,12 @@ var bcrypt = require('bcryptjs');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  if (req.user){
+  /*if (req.user){
     res.redirect('/user'); //display user.hbs
   }
-  else{res.render('index');}
+  else{*/
+    res.render('index');
+  //}
 });
 
 router.get('/login', function(req, res){
