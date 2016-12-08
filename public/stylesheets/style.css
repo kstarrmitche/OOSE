@@ -25,12 +25,12 @@ h1 {
 
 .transparent{
 
-  background: rgba(218,193,179, 0.2);
-    background-image: url("/img/white-wave.png");
+  background: rgba(87,77,72, .9);
+    background-image: url("/img/gradient-squares.png");
 
     border-radius: 15px;
     padding: 50px;
-    box-shadow: 0px 0px 70px 1px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 80px 1px rgba(0, 0, 0, 0.4);
 
 }
 .center {
