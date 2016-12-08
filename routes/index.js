@@ -53,11 +53,11 @@ function loggedIn(req, res, next) {
 }
 
 router.get('/upload',loggedIn,function(req,res) {
-	res.render('upload');
+	res.render('upload', {user: req.user});
 });
 
 router.get('/video',function(req,res){
-  res.render('video');
+  res.render('video', {user: req.user});
 });
 
 router.get('/catalog',function(req,res, next){
@@ -307,7 +307,7 @@ function runQuery_video(req, res, client, done, next) {
           console.log(result.rows[0].videotitle);
 
 
-      res.render('video', {videourl: result.rows[0].videourl, success:"true", title: result.rows[0].videotitle });
+      res.render('video', {videourl: result.rows[0].videourl, success:"true", title: result.rows[0].videotitle , user: req.user});
     }
   };
 }

@@ -24,7 +24,7 @@ router.post('/login',
     console.log(req.user);
     console.log('users.js');
     if (req.user.type == 'content'){
-      res.redirect('/content');
+      res.redirect('/content', {user: req.user});
     }
     else if (req.user.type == 'ad'){
       res.redirect('/ad');
@@ -75,11 +75,13 @@ router.get('/signup',function(req, res) {
 });
 
 router.get('/upload',loggedIn,function(req,res) {
-	res.render('upload');
+	res.render('upload', {user: req.user});
 });
 
 router.get('/video',function(req,res){
-  res.render('video');
+  console.log("user");
+  console.log(req.user);
+  res.render('video', {user: req.user});
 });
 //=============
 router.get('/user', loggedIn, function(req, res, next) { //regular user
@@ -126,7 +128,8 @@ function runQuery_video(req, res, client, done, next) {
         }*/
 
       }
-
+      console.log("user1");
+      console.log(req.user);
       res.render('/video', { title: 'Dashboard', user: req.user, videourl: url });
 
   };
@@ -217,7 +220,8 @@ function uploadVideo(req, res, next){
            else {
 			console.log("Video upload successful");
       console.log("this should be going to video");
-			res.redirect('/video');
+
+			res.redirect('/video', {user: req.user});
     }
 
 			console.log("Video upload successful");
