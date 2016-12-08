@@ -339,8 +339,12 @@ router.post('/signup', function(req, res, next) {
       else {
           console.log("in get catalog function");
           console.log(req.user.username);
+          if(req.user.type == 'user'){
+            client.query('SELECT videourl FROM videos',runCatalog(req, res, client, done, next));
+          }
+          else{
             client.query('SELECT videourl FROM videos WHERE author=$1',[req.user.username],runCatalog(req, res, client, done, next));
-
+          }
       }
   };
   }
