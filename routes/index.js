@@ -343,15 +343,16 @@ router.post('/signup', function(req, res, next) {
       else {
         console.log(result);
         console.log("in runCatalog");
-
+        if(result.rows.length !== 0 ){
             console.log(result.rows);
             //console.log(result.rows[0].videotitle);
             var url = result.rows[0].videourl;
             console.log(url);
-
-
-
         res.render('catalog', {videourl: url, success:"true", rows:result.rows});
+        }
+        else {
+          res.render('catalog', {success:"false"});
+        }
 
   }
   };

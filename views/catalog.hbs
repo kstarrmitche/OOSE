@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html>
+  {{#if rows}}
+    {{#each rows}}
+    <div class="embed-responsive embed-responsive-16by9">
+    <iframe id = "player" class="embed-responsive-item" src="{{videourl}}"></iframe>
+    </div>
+    {{/each}}
+    {{else}}
+      No videos here. Go upload some!
 
-{{#if rows}}
-  {{#each rows}}
-    <center><iframe id = "player" type="text/html" src="{{videourl}}" width="480" height="400"></iframe></center>
-  {{/each}}
-{{/if}}
+  {{/if}}
+
 </html>
